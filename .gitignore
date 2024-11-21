@@ -1,0 +1,8 @@
+# Node modules
+node_modules/
+
+# Build directory (for React apps)
+build/
+
+# Logs
+*.log
