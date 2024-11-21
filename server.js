@@ -9,11 +9,9 @@ const PORT = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(cors());
 
-// Multer configuration for file handling
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-// Helper function to check for prime numbers
 const isPrime = (num) => {
     if (num <= 1) return false;
     for (let i = 2; i <= Math.sqrt(num); i++) {
@@ -22,7 +20,6 @@ const isPrime = (num) => {
     return true;
 };
 
-// Process input data
 const processInputData = (data) => {
     const numbers = [];
     const alphabets = [];
@@ -45,7 +42,6 @@ const processInputData = (data) => {
     return { numbers, alphabets, highestLowercase, primeFound };
 };
 
-// POST endpoint
 app.post("/bfhl", upload.single("file"), (req, res) => {
     const { data, file_b64 } = req.body;
 
@@ -60,7 +56,7 @@ app.post("/bfhl", upload.single("file"), (req, res) => {
         try {
             const fileBuffer = Buffer.from(file_b64, "base64");
             fileDetails.file_valid = true;
-            fileDetails.file_mime_type = "application/octet-stream"; // Assume generic MIME
+            fileDetails.file_mime_type = "application/octet-stream";
             fileDetails.file_size_kb = (fileBuffer.length / 1024).toFixed(2);
         } catch {
             fileDetails.file_valid = false;
@@ -69,9 +65,9 @@ app.post("/bfhl", upload.single("file"), (req, res) => {
 
     res.json({
         is_success: true,
-        user_id: "john_doe_17091999", // Replace with dynamic user ID
-        email: "john@xyz.com", // Replace with dynamic email
-        roll_number: "ABCD123", // Replace with dynamic roll number
+        user_id: "john_doe_17091999",
+        email: "john@xyz.com",
+        roll_number: "ABCD123",
         numbers,
         alphabets,
         highest_lowercase_alphabet: highestLowercase ? [highestLowercase] : [],
@@ -80,12 +76,10 @@ app.post("/bfhl", upload.single("file"), (req, res) => {
     });
 });
 
-// GET endpoint
 app.get("/bfhl", (req, res) => {
     res.status(200).json({ operation_code: 1 });
 });
 
-// Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
